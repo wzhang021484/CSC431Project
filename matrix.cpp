@@ -101,8 +101,8 @@ matrix inv(matrix A)
 		exit(-1);
 	}
 	matrix B(A.rows,A.cols);
-	float p;
-	float q;
+	datatype p;
+	datatype q;
 	int m;
 	for(int r=0; r<B.cols;r++) B(r,r)=1;
 	for(int c=0; c<A.cols;c++) 
@@ -117,11 +117,15 @@ matrix inv(matrix A)
 				p=A(i,c);
 			}
 		}
-		for(int i=0; i<A.cols; i++) 
+
+		/*for(int i=0; i<A.cols; i++) 
 		{
 			swap(A(m,i),A(c,i));
 			swap(B(m,i),B(c,i));
-		}
+		}*/
+		A.swap_rows(m, c);
+		B.swap_rows(m, c);
+
 		for(int i=0; i<A.cols; i++) 
 		{
 			A(c,i) /= p; 
