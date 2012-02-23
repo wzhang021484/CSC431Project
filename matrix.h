@@ -16,11 +16,11 @@ public:
 	matrix(int rows, int cols);
 	~matrix(void);
 
-	datatype operator()(int i, int j) const 
+	datatype operator()(int i, int j=0) const 
 	{
 		return data[i*cols+j];
 	}
-	datatype &operator()(int i, int j) 
+	datatype &operator()(int i, int j=0) 
 	{
 		return data[i*cols+j];
 	}
@@ -50,3 +50,7 @@ matrix operator*(const matrix &A, const matrix &B);
 
 // function on matrix
 matrix inv(matrix A);
+
+datatype norm_1(const matrix& A);
+datatype norm_2(const matrix& A);
+datatype norm_infinite(const matrix& A);

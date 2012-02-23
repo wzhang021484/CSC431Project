@@ -120,8 +120,8 @@ matrix inv(matrix A)
 
 		/*for(int i=0; i<A.cols; i++) 
 		{
-			swap(A(m,i),A(c,i));
-			swap(B(m,i),B(c,i));
+		    swap(A(m,i),A(c,i));
+		    swap(B(m,i),B(c,i));
 		}*/
 		A.swap_rows(m, c);
 		B.swap_rows(m, c);
@@ -145,5 +145,55 @@ matrix inv(matrix A)
 		}
 	}
 	return B;
+}
 
+datatype norm_1(const matrix& A) 
+{
+	datatype z,m=0;
+	for(int j=0; j<A.cols; j++) 
+	{
+		z=0;
+		for(int i=0; i<A.rows; i++) 
+		{
+			z+=abs(A(i,j));
+		}
+		if(z>m) 
+		{
+			m=z;
+		}
+	}
+	return m;
+}
+
+datatype norm_2(const matrix& A)
+{
+	if(A.cols!=1) 
+	{
+		cout << "error! function norm_2 is only for vectors!\n";
+		exit(-1);			
+	}
+	datatype m=0;
+	for(int i=0; i<A.rows; i++)
+	{
+		m+=A(i)*A(i);
+	}
+	return sqrt(m);
+}
+
+datatype norm_infinite(const matrix& A)
+{
+	datatype z,m=0;
+	for(int j=0; j<A.rows; j++) 
+	{
+		z=0;
+		for(int i=0; i<A.cols; i++) 
+		{
+			z+=abs(A(j,i));
+		}
+		if(z>m)
+		{
+			m=z;
+		}
+	}
+	return m;
 }
