@@ -244,3 +244,32 @@ bool is_almost_zero(matrix A, double ap, double rp)
 
 	return result;
 }
+
+double condition_number(const matrix& A) 
+{
+	return norm_1(A)/norm_1(inv(A));
+}
+
+matrix trans(const matrix& A) 
+{
+	matrix B(A.cols,A.rows);
+	for(int i=0; i<A.rows; i++)
+	{
+		for(int j=0; j<A.cols; j++)
+		{
+			B(j,i)=A(i,j);
+		}
+	}
+	return B;
+}
+
+matrix identity(int n) 
+{
+	matrix A(n, n);
+	for (int i = 0; i < n; i++) 
+	{
+		A(i, i) = 1;
+	}
+
+	return A;
+}

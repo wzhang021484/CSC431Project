@@ -57,3 +57,7 @@ datatype norm_infinite(const matrix& A);
 
 bool is_almost_symmetric(matrix A, double ap = 0.000001, double rp = 0.0001);
 bool is_almost_zero(matrix A, double ap = 0.000001, double rp = 0.0001);
+
+double condition_number(const matrix& A);
+matrix trans(const matrix& A);
+matrix identity(int n);
