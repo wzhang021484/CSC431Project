@@ -54,3 +54,6 @@ matrix inv(matrix A);
 datatype norm_1(const matrix& A);
 datatype norm_2(const matrix& A);
 datatype norm_infinite(const matrix& A);
+
+bool is_almost_symmetric(matrix A, double ap = 0.000001, double rp = 0.0001);
+bool is_almost_zero(matrix A, double ap = 0.000001, double rp = 0.0001);

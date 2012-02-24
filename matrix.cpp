@@ -197,3 +197,50 @@ datatype norm_infinite(const matrix& A)
 	}
 	return m;
 }
+
+bool is_almost_symmetric(matrix A, double ap, double rp)       
+{
+	if (A.rows != A.cols)
+	{
+		return false;
+	}
+	else
+	{
+		for (int r = 0; r < A.rows; r++)
+		{
+			for (int c = 0; c < r; c++)
+			{                       
+				double delta = abs(A(r, c) - A(c, r));                      
+				double abs_arc = abs(A(r, c));
+				double abs_acr = abs(A(c, r));                       
+				if ((delta > ap) && (delta > max(abs_arc, abs_acr) * rp))
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+bool is_almost_zero(matrix A, double ap, double rp)
+{
+	bool result = true;
+
+	for (int r = 0; r < A.rows; r++)
+	{
+		for (int c = 0; c < A.rows; c++)
+		{
+			double delta = abs(A(r, c) - A(c, r));
+			double abs_arc = abs(A(r, c));
+			double abs_acr = abs(A(c, r));
+			if ((delta > ap) && (delta > max(abs_arc, abs_acr) * rp))
+			{
+				result = false;
+			}
+		}
+	}
+
+	return result;
+}
