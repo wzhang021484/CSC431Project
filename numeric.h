@@ -34,4 +34,9 @@ public:
 	double solve_newton(double x);
 	double solve_secant(double x);
 	double solve_newton_stabalized(double a, double b);
+
+	double optimize_bisection(double a, double b);
+	double optimize_newton(double x);
+	double optimize_secant(double x);
+	double optimize_newton_stabalized(double a, double b);
 };

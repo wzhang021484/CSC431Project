@@ -84,7 +84,7 @@ double numeric::solve_secant(double x)
 		f1x=(fx-f_old)/(x-x_old);	
 		if(abs(f1x)<PRECISION) 
 		{
-			cout << "error! solve_newton: Instability!\n";
+			cout << "error! solve_secant: Instability!\n";
 			exit(-1);
 		}
 		f_old=fx;
@@ -95,7 +95,7 @@ double numeric::solve_secant(double x)
 			return x;
 		}
 	}
-	cout << "error! exp: no convergence!\n";
+	cout << "error! solve_secant: no convergence!\n";
 	exit(-1);
 }
 
@@ -108,7 +108,7 @@ double numeric::solve_newton_stabalized(double a, double b)
 	if(fb==0) return b;
 	if(fa*fb>0)
 	{
-		cout << "error! solve_bisection: f(a) and f(b) must have opposite sign!\n";
+		cout << "error! solve_newton_stabalized: f(a) and f(b) must have opposite sign!\n";
 		exit(-1);
 	}
 	double f1x=0;
@@ -137,3 +137,144 @@ double numeric::solve_newton_stabalized(double a, double b)
 	}
 	return x;
 }
+
+double numeric::optimize_bisection(double a, double b)
+{
+	double fa=d1f(a);
+	double fb=d1f(b);
+	double x, fx;
+	if(fa==0)
+	{
+		return a;
+	}
+	if(fb==0)
+	{
+		return b;
+	}
+	if(fa*fb>0)
+	{
+		cout << "error! optimize_bisection: f(a) and f(b) must have opposite sign!\n";
+		exit(-1);
+	}
+
+	for(int k=0; k<NS; k++)
+	{           
+		x=(a+b)/2;
+		fx=d1f(x);
+		if(abs(fx)<PRECISION)
+		{
+			return x;
+		}
+		else if(fx*fa<0)
+		{
+			b=x; fb=fx;
+		} 
+		else if(fx*fb<0)
+		{
+			a=x; fa=fx;
+		}
+	}
+
+	return x;
+}
+
+double numeric::optimize_newton(double x)
+{
+	double x_old=x+PRECISION;
+	double f2x;
+	for(int k=0; k<NS; k++)
+	{            
+		f2x=d2f(x);	
+		if(abs(f2x)<PRECISION)
+		{
+			cout << "error! optimize_newton: Instability!\n";
+			exit(-1);
+		}
+		x_old=x;
+		x=x-d1f(x)/f2x;
+		if(abs(x-x_old)<PRECISION)
+		{
+			return x;
+		}
+	}
+
+
+	cout << "error! optimize_newton: no convergence!\n";
+	exit(-1);
+}
+
+double numeric::optimize_secant(double x) 
+{
+	double x_old;
+	double f1x, f2x, f1_old;
+	x_old=x-0.0001;
+	f1_old=d1f(x_old);
+	for(int k=0; k<NS; k++)
+	{          
+		f1x=d1f(x);
+		f2x=(f1x-f1_old)/(x-x_old);	
+		if(abs(f2x)<PRECISION) 
+		{
+			cout << "error! optimize_secant: Instability!\n";
+			exit(-1);
+		}
+		f1_old=f1x;
+		x_old=x;
+		x=x-f1x/f2x;
+		if((k>1) && (abs(x-x_old)<PRECISION))
+		{
+			return x;
+		}
+	}
+
+
+	cout << "error! optimize_secant: no convergence!\n";
+	exit(-1);
+}
+
+ double numeric::optimize_newton_stabalized(double a, double b)
+ {
+	 double f1a=d1f(a);
+	 double f1b=d1f(b);
+	 double x, f1x;
+	 if(f1a==0) 
+	 {
+		 return a;
+	 }
+	 if(f1b==0)
+	 {
+		 return b;
+	 }
+	 if(f1a*f1b>0)
+	 {
+		 cout << "error! optimize_newton_stabalized: f(a) and f(b) must have opposite sign!\n";
+		 exit(-1);
+	 }
+	 double f2x=0;
+	 for(int k=0; k<NS; k++)
+	 {		
+		 if(abs(f1x)>PRECISION) 
+		 {
+			 x=x-f1x/f2x;
+		 }
+		 if((abs(f2x)<=PRECISION) || (x<=a) || (x>=b)) 
+		 {
+			 x=(a+b)/2;
+		 }
+		 f1x=d1f(x);
+		 f2x=d2f(x);
+		 if(abs(f1x)<PRECISION) 
+		 {
+			 return x;
+		 }
+		 else if(f1x*f1a<0)
+		 {
+			 b=x; f1b=f1x;
+		 }
+		 else if(f1x*f1b<0) 
+		 {
+			 a=x; f1a=f1x;
+		 }
+	 }
+	 return x;
+ }
