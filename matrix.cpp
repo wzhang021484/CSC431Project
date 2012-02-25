@@ -13,6 +13,11 @@ matrix::~matrix(void)
 	data.clear();
 }
 
+matrix::matrix(int _rows)
+{
+	matrix(_rows, _rows);
+}
+
 matrix::matrix(int _rows, int _cols)
 {
 	rows=_rows;
@@ -350,4 +355,48 @@ matrix Cholesky(const matrix& A)
 		}
 	}
 	return L;	
+}
+
+bool is_positive(const matrix& A)
+{
+	Cholesky(A);
+	return true;
+}
+
+matrix Markoviz(matrix mu, const matrix& A, double r_free) 
+{
+	matrix x(A.rows,1);
+	for(int r=0; r<mu.rows; r++)
+	{
+		mu(r,0)-=r_free;
+	}
+	x=inv(A)*mu;
+	float x_norm=0;
+	for(int r=0; r<mu.rows; r++)
+	{
+		x_norm+=x(r,0);
+	}
+	for(int r=0; r<mu.rows; r++)
+	{
+		x(r,0)/=x_norm;
+	}
+
+	return x;
+}
+
+matrix fit_least_squares(const matrix& points, int n)
+{
+	matrix b(points.rows);
+	matrix A(points.rows,n);
+	for(int i=0; i<points.rows; i++) 
+	{
+		for(int j=0; j<n; j++)
+		{
+			A(i,j)=pow(points(i,0),j);
+		}
+		b(i)=points(i,1);
+	}
+	matrix x=inv(trans(A)*A)*trans(A)*b;
+
+	return x;
 }

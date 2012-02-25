@@ -15,6 +15,7 @@ public:
 	int cols;
 	vector<datatype> data;
 	matrix(void);
+	matrix(int rows);
 	matrix(int rows, int cols);
 	~matrix(void);
 
@@ -70,3 +71,9 @@ matrix my_identity(int n);
 matrix exp(matrix x, double ap=1e-6, double rp=1e-4, int ns=40);
 
 matrix Cholesky(const matrix& A);
+
+bool is_positive(const matrix& A);
+
+// numeric functions
+matrix Markoviz(matrix mu, const matrix& A, double r_free);
+matrix fit_least_squares(const matrix& points, int n);
