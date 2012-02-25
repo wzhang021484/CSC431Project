@@ -42,22 +42,25 @@ public:
 };
 
 // operators on matrix:
-ostream &operator<<(ostream &out, const matrix& A);
+ostream &operator<<(ostream &out, const matrix &A);
 matrix operator+(const matrix &A, const matrix &B);
 matrix operator-(const matrix &A, const matrix &B);
 matrix operator*(datatype a, const matrix &B);
 matrix operator*(const matrix &A, const matrix &B);
+matrix operator/(const matrix &A, double a);
 
 // function on matrix
 matrix inv(matrix A);
 
-datatype norm_1(const matrix& A);
-datatype norm_2(const matrix& A);
-datatype norm_infinite(const matrix& A);
+double norm_1(const matrix& A);
+double norm_2(const matrix& A);
+double norm_infinite(const matrix& A);
 
 bool is_almost_symmetric(matrix A, double ap = 0.000001, double rp = 0.0001);
 bool is_almost_zero(matrix A, double ap = 0.000001, double rp = 0.0001);
 
 double condition_number(const matrix& A);
 matrix trans(const matrix& A);
-matrix identity(int n);
+matrix my_identity(int n);
+
+matrix exp(matrix x, double ap=1e-6, double rp=1e-4, int ns=40);

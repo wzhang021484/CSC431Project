@@ -78,6 +78,15 @@ matrix operator*(datatype a, const matrix &B)
 	return C;
 }
 
+matrix operator/(const matrix &A, double a)
+{
+	matrix C(A.rows,A.cols);
+	for(int r=0; r<A.rows; r++)
+		for(int c=0; c<A.cols; c++)
+			C(r,c)=A(r,c)/a;
+	return C;
+}
+
 matrix operator*(const matrix &A, const matrix &B)
 {
 	if(A.cols!=B.rows)
@@ -147,7 +156,7 @@ matrix inv(matrix A)
 	return B;
 }
 
-datatype norm_1(const matrix& A) 
+double norm_1(const matrix& A) 
 {
 	datatype z,m=0;
 	for(int j=0; j<A.cols; j++) 
@@ -165,7 +174,7 @@ datatype norm_1(const matrix& A)
 	return m;
 }
 
-datatype norm_2(const matrix& A)
+double norm_2(const matrix& A)
 {
 	if(A.cols!=1) 
 	{
@@ -180,7 +189,7 @@ datatype norm_2(const matrix& A)
 	return sqrt(m);
 }
 
-datatype norm_infinite(const matrix& A)
+double norm_infinite(const matrix& A)
 {
 	datatype z,m=0;
 	for(int j=0; j<A.rows; j++) 
@@ -263,7 +272,7 @@ matrix trans(const matrix& A)
 	return B;
 }
 
-matrix identity(int n) 
+matrix my_identity(int n) 
 {
 	matrix A(n, n);
 	for (int i = 0; i < n; i++) 
@@ -272,4 +281,23 @@ matrix identity(int n)
 	}
 
 	return A;
+}
+
+matrix exp(matrix x, double ap, double rp,int ns)
+{
+	matrix t = my_identity(x.cols);
+	matrix s = my_identity(x.cols);
+
+	for (int k=0; k<ns; k++)
+	{
+		t = t*x/k;   // next term
+		s = s + t;   // add next term
+		if (norm_1(t)<max(ap,norm_1(s)*rp))
+		{
+			return s;
+		}
+	}
+
+	cout << "error! exp: no convergence!\n";
+	exit(-1);
 }
