@@ -6,6 +6,8 @@ using namespace std;
 
 #define datatype float // Please change this line if you want to use other data type, such as int, double, etc.
 
+const double PRECISION=1e-6;
+
 class matrix
 {
 public:
@@ -48,6 +50,8 @@ matrix operator-(const matrix &A, const matrix &B);
 matrix operator*(datatype a, const matrix &B);
 matrix operator*(const matrix &A, const matrix &B);
 matrix operator/(const matrix &A, double a);
+bool operator!=(const matrix& A, const matrix& B);
+bool operator==(const matrix& A, const matrix& B);
 
 // function on matrix
 matrix inv(matrix A);
@@ -64,3 +68,5 @@ matrix trans(const matrix& A);
 matrix my_identity(int n);
 
 matrix exp(matrix x, double ap=1e-6, double rp=1e-4, int ns=40);
+
+matrix Cholesky(const matrix& A);

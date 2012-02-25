@@ -102,6 +102,17 @@ matrix operator*(const matrix &A, const matrix &B)
 	return C;
 }
 
+bool operator!=(const matrix& A, const matrix& B) 
+{
+    return (norm_1(A-B)>PRECISION);
+}
+
+bool operator==(const matrix& A, const matrix& B) 
+{
+    return (norm_1(A-B)<PRECISION);
+}
+
+
 matrix inv(matrix A) 
 {
 	if(A.cols!=A.rows)
@@ -300,4 +311,43 @@ matrix exp(matrix x, double ap, double rp,int ns)
 
 	cout << "error! exp: no convergence!\n";
 	exit(-1);
+}
+
+matrix Cholesky(const matrix& A) 
+{
+	if(A!=trans(A)) 
+	{
+		cout << "error! Cholesky: not symmetric!\n";
+		exit(-1);
+	}
+	matrix L=A;
+	for(int k=0; k<L.cols; k++) 
+	{
+		if(L(k,k)<=0)
+		{
+			cout << "error! Cholesky: not positive!\n";
+			exit(-1);
+		}
+		L(k,k)=sqrt(L(k,k));
+		for(int i=k+1; i<L.rows; i++)
+		{
+			L(i,k)/=L(k,k);
+		}
+		for(int j=k+1; j<L.rows; j++)
+		{
+			for(int i=k+1; i<L.rows; i++)
+			{
+				L(i,j)-=L(i,k)*L(j,k);
+			}
+		}
+
+	}
+	for(int i=0; i<L.rows; i++) 
+	{
+		for(int j=i+1; j<L.cols; j++)
+		{
+			L(i,j)=0;
+		}
+	}
+	return L;	
 }
