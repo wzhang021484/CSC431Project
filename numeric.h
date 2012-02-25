@@ -3,10 +3,11 @@
 #include "matrix.h"
 
 const double EPSILON=1e-3;
+const int NS=20;
 
 class numeric 
 {
-public:
+public:	
     virtual double f(double)=NULL;
     virtual double g(double x)
 	{
@@ -29,4 +30,8 @@ public:
     }   
 
 	double solve_fixed_point(double x_guess);
+	double solve_bisection(double a, double b);
+	double solve_newton(double x);
+	double solve_secant(double x);
+	double solve_newton_stabalized(double a, double b);
 };
