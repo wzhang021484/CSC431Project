@@ -232,49 +232,83 @@ double numeric::optimize_secant(double x)
 	exit(-1);
 }
 
- double numeric::optimize_newton_stabalized(double a, double b)
- {
-	 double f1a=d1f(a);
-	 double f1b=d1f(b);
-	 double x, f1x;
-	 if(f1a==0) 
-	 {
-		 return a;
-	 }
-	 if(f1b==0)
-	 {
-		 return b;
-	 }
-	 if(f1a*f1b>0)
-	 {
-		 cout << "error! optimize_newton_stabalized: f(a) and f(b) must have opposite sign!\n";
-		 exit(-1);
-	 }
-	 double f2x=0;
-	 for(int k=0; k<NS; k++)
-	 {		
-		 if(abs(f1x)>PRECISION) 
-		 {
-			 x=x-f1x/f2x;
-		 }
-		 if((abs(f2x)<=PRECISION) || (x<=a) || (x>=b)) 
-		 {
-			 x=(a+b)/2;
-		 }
-		 f1x=d1f(x);
-		 f2x=d2f(x);
-		 if(abs(f1x)<PRECISION) 
-		 {
-			 return x;
-		 }
-		 else if(f1x*f1a<0)
-		 {
-			 b=x; f1b=f1x;
-		 }
-		 else if(f1x*f1b<0) 
-		 {
-			 a=x; f1a=f1x;
-		 }
-	 }
-	 return x;
- }
+double numeric::optimize_newton_stabalized(double a, double b)
+{
+	double f1a=d1f(a);
+	double f1b=d1f(b);
+	double x, f1x;
+	if(f1a==0) 
+	{
+		return a;
+	}
+	if(f1b==0)
+	{
+		return b;
+	}
+	if(f1a*f1b>0)
+	{
+		cout << "error! optimize_newton_stabalized: f(a) and f(b) must have opposite sign!\n";
+		exit(-1);
+	}
+	double f2x=0;
+	for(int k=0; k<NS; k++)
+	{		
+		if(abs(f1x)>PRECISION) 
+		{
+			x=x-f1x/f2x;
+		}
+		if((abs(f2x)<=PRECISION) || (x<=a) || (x>=b)) 
+		{
+			x=(a+b)/2;
+		}
+		f1x=d1f(x);
+		f2x=d2f(x);
+		if(abs(f1x)<PRECISION) 
+		{
+			return x;
+		}
+		else if(f1x*f1a<0)
+		{
+			b=x; f1b=f1x;
+		}
+		else if(f1x*f1b<0) 
+		{
+			a=x; f1a=f1x;
+		}
+	}
+	return x;
+}
+
+double numeric::optimize_golden_search(double a, double b) 
+{
+	double t=(sqrt(5.0)-1)/2;
+	double x1=a+(1.0-t)*(b-a);
+	double x2=a+(t)*(b-a);
+	double fa=f(a);
+	double fb=f(b);
+	double f1=f(x1);
+	double f2=f(x2);
+	while(abs(b-a)>PRECISION) 
+	{           
+		if(f1>f2)
+		{
+			a=x1;
+			fa=f1;	
+			x1=x2;
+			f1=f2;
+			x2=a+(t)*(b-a);
+			f2=f(x2);
+		} 
+		else 
+		{
+			b=x2;
+			fb=f2;
+			x2=x1;
+			f2=f1;
+			x1=a+(1.0-t)*(b-a);
+			f1=f(x1);
+		}	
+	}
+
+	return b;
+}	

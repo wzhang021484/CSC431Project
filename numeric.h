@@ -39,4 +39,6 @@ public:
 	double optimize_newton(double x);
 	double optimize_secant(double x);
 	double optimize_newton_stabalized(double a, double b);
+
+	double optimize_golden_search(double a, double b);
 };
