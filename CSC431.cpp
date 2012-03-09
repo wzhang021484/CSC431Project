@@ -5,12 +5,27 @@
 #include "matrix.h"
 
 void test_matrix();
+void test_Cholesky_and_is_almost_zero();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	test_matrix();
+	//test_matrix();
+	test_Cholesky_and_is_almost_zero();
 
 	return 0;
+}
+
+void test_Cholesky_and_is_almost_zero() 
+{
+    matrix A(2,2);
+    A(0,0)=0.001; 
+    A(1,1)=0.002; 
+    A(0,1)=A(1,0)=0.001; 
+	cout << "A:" << endl << A << endl;
+
+    matrix L=Cholesky(A);
+	cout << "Cholesky(A):" << endl << L << endl;
+	cout << "is_almost_zero(A - L*L'), expect true(1): " << is_almost_zero(A - L * trans(L)) << endl;   
 }
 
 void test_matrix() 
