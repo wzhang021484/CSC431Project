@@ -6,16 +6,43 @@
 
 void test_matrix();
 void test_Cholesky_and_is_almost_zero();
+void test_Markoviz();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//test_matrix();
-	test_Cholesky_and_is_almost_zero();
+	//test_Cholesky_and_is_almost_zero();
+	test_Markoviz();
 
 	return 0;
 }
 
-void test_Cholesky_and_is_almost_zero() 
+void test_Markoviz() 
+{
+    matrix A(3,3);
+    A(0,0)=pow(0.1,2);
+    A(1,1)=pow(0.2,2);
+    A(2,2)=pow(0.3,2);
+    A(0,1)=A(1,0)=0.10*0.20*0.30;
+    A(0,2)=A(2,0)=0.25*0.30*0.45;
+    A(1,2)=A(2,1)=0.30*0.40*0.20;
+    matrix mu(3,1);
+    mu(0,0)=0.10;
+    mu(1,0)=0.13;
+    mu(2,0)=0.16;
+    float r_bar=0.05;
+
+    matrix x=Markoviz(mu,A,r_bar);
+
+	cout << "A:" << endl << A << endl;
+	cout << "mu:" << endl << mu << endl;
+	cout << "r_bar:" << endl << r_bar << endl;
+    cout << "x:" << endl << x << endl;
+    cout << "return:" << trans(mu)*x << endl;
+    cout << "risk:" << sqrt((trans(x)*A*x)(0,0)) << endl;
+}
+
+void test_Cholesky_and_is_almost_zero() // also test trans()
 {
     matrix A(2,2);
     A(0,0)=0.001; 
