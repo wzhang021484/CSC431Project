@@ -56,7 +56,7 @@ double numeric::solve_newton(double x)
 	double f1x;
 	for(int k=0; k<NS; k++) 
 	{
-		cout << x << endl;
+		//cout << x << endl;
 		f1x=d1f(x);	
 		if(abs(f1x)<PRECISION) 
 		{

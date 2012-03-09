@@ -3,18 +3,41 @@
 
 #include "stdafx.h"
 #include "matrix.h"
+#include "numeric.h"
 
 void test_matrix();
 void test_Cholesky_and_is_almost_zero();
 void test_Markoviz();
+void test_numeric();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//test_matrix();
 	//test_Cholesky_and_is_almost_zero();
-	test_Markoviz();
+	//test_Markoviz();
+	test_numeric();
 
 	return 0;
+}
+
+void test_numeric()
+{
+	class real_numeric : public numeric
+	{
+	public: 
+		double f(double x)
+		{ 
+			return (cos(x)*(1.0-x*x)-x)/10;
+		}	
+	};
+
+	real_numeric a;
+	cout << "solve: (cos(x)*(1.0-x*x)-x)/10 = 0" << endl;
+	cout << "solve_newton:            x = " << a.solve_newton(0) << endl;
+	cout << "sovle_bisection:         x = " << a.solve_bisection(0, 1) << endl;
+	cout << "solve_fixed_point:       x = " << a.solve_fixed_point(0.5) << endl;
+	cout << "solve_newton_stabalized: x = " << a.solve_newton_stabalized(0, 1) << endl;
+	cout << "solve_secant:            x = " << a.solve_secant(0.5) << endl;	
 }
 
 void test_Markoviz() 
